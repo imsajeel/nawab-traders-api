@@ -1,4 +1,4 @@
-# Simple Login and register form
+# Nawab Traders Management System
 
 username
 password
