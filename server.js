@@ -5,6 +5,7 @@ const signin = require("./routes/signin");
 const register = require("./routes/register");
 const customers = require("./routes/customers");
 const bank = require("./routes/bank");
+const supplier = require("./routes/supplier");
 const brands = require("./routes/brands");
 const add = require("./routes/add");
 
@@ -20,6 +21,7 @@ app.use("/register", register);
 app.use("/signin", signin);
 app.use("/customers", customers);
 app.use("/bank", bank);
+app.use("/suppliers", supplier);
 app.use("/add", add);
 app.use("/brands", brands);
 

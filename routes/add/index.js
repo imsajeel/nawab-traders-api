@@ -10,26 +10,27 @@ Router.post("/customer", (req, res) => {
   if (req.body.name) {
     const {
       name,
-      nameShop,
+      shopname,
       idCard,
       ntn,
       address,
       ph1,
       ph2,
       ph3,
-      opBalance,
+      balance,
       comments,
     } = req.body;
 
-    const sql = `INSERT INTO cem_customers (name,shopname,idcard,ntn,address,ph1,ph2,ph3,balance,comments) VALUES ('${name}','${nameShop}','${idCard}','${ntn}','${address}','${ph1}','${ph2}','${ph3}','${opBalance}','${comments}')`;
+    const sql = `INSERT INTO cem_customers (name,shopname,idcard,ntn,address,ph1,ph2,ph3,balance,comments) VALUES ('${name}','${shopname}','${idCard}','${ntn}','${address}','${ph1}','${ph2}','${ph3}','${balance}','${comments}')`;
 
     mysqlConnection.query(sql, (err, result) => {
       if (err) {
+        const { code, errno } = err;
         if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
           res.json({
-            status: "success",
+            status: "error",
             message: "Customer already exist",
-            payload: err,
+            payload: { code, errno },
           });
         } else {
           res.json({ status: "error", message: "Unknown Error", payload: err });
@@ -47,73 +48,71 @@ Router.post("/supplier", (req, res) => {
   if (req.body.name) {
     const {
       name,
-      nameShop,
-      idCard,
-      ntn,
       address,
       ph1,
       ph2,
       ph3,
-      opBalance,
-      comments,
+      email,
+      op_balance,
+      comment,
     } = req.body;
 
-    const sql = `INSERT INTO cem_customers (name,shopname,idcard,ntn,address,ph1,ph2,ph3,balance,comments) VALUES ('${name}','${nameShop}','${idCard}','${ntn}','${address}','${ph1}','${ph2}','${ph3}','${opBalance}','${comments}')`;
+    const sql = `INSERT INTO cem_supplier (name, address, ph1, ph2, ph3, email_sup, op_balance, comment) VALUES ('${name}','${address}','${ph1}','${ph2}','${ph3}','${email}','${op_balance}','${comment}')`;
 
     mysqlConnection.query(sql, (err, result) => {
       if (err) {
+        const { code, errno } = err;
         if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
           res.json({
-            status: "success",
-            message: "Customer already exist",
-            payload: err,
+            status: "error",
+            message: "Supplier already exist",
+            payload: { code, errno },
           });
         } else {
           res.json({ status: "error", message: "Unknown Error", payload: err });
         }
       } else {
-        res.json({ status: "success", message: "Customer succefully added." });
+        res.json({ status: "success", message: "Supplier succefully added." });
       }
     });
   } else {
-    res.json({ status: "error", message: "Please enter name of customer." });
+    res.json({ status: "error", message: "Please enter name of supplier." });
   }
 });
 
 Router.post("/bank", (req, res) => {
   if (req.body.name) {
     const {
+      title_acc,
       name,
-      nameShop,
-      idCard,
-      ntn,
+      branch,
+      branch_code,
+      ph,
+      email,
       address,
-      ph1,
-      ph2,
-      ph3,
-      opBalance,
-      comments,
+      op_balance,
     } = req.body;
 
-    const sql = `INSERT INTO cem_customers (name,shopname,idcard,ntn,address,ph1,ph2,ph3,balance,comments) VALUES ('${name}','${nameShop}','${idCard}','${ntn}','${address}','${ph1}','${ph2}','${ph3}','${opBalance}','${comments}')`;
+    const sql = `INSERT INTO cem_bank (title_acc,name,branch,branch_code,ph,email,address,op_balance) VALUES ('${title_acc}','${name}','${branch}','${branch_code}','${ph}','${email}','${address}','${op_balance}')`;
 
     mysqlConnection.query(sql, (err, result) => {
       if (err) {
-        if (err.code == "ER_DUP_ENTRY" || err.errno == 1062) {
+        const { code, errno } = err;
+        if (code == "ER_DUP_ENTRY" || errno == 1062) {
           res.json({
-            status: "success",
-            message: "Customer already exist",
-            payload: err,
+            status: "error",
+            message: "Bank already exist",
+            payload: { code, errno },
           });
         } else {
           res.json({ status: "error", message: "Unknown Error", payload: err });
         }
       } else {
-        res.json({ status: "success", message: "Customer succefully added." });
+        res.json({ status: "success", message: "Bank succefully added." });
       }
     });
   } else {
-    res.json({ status: "error", message: "Please enter name of customer." });
+    res.json({ status: "error", message: "Please enter name of Bank." });
   }
 });
 
